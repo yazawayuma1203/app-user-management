@@ -11,10 +11,12 @@ import {
   ModalOverlay,
   ModalFooter
 } from "@chakra-ui/react";
-import React, { ChangeEvent, memo, useEffect, useState, VFC } from "react";
+import axios from "axios";
+import React, { ChangeEvent, memo, useCallback, useEffect, useState, VFC } from "react";
 
 import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
+
 
 type Props = {
   user: User | null;
@@ -47,7 +49,12 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) =>
     setPhone(e.target.value);
 
-  const onClickUpdate = () => alert();
+  const onClickUpdate = useCallback(() => {
+    alert(user?.toString());
+    axios
+      .get("http://localhost:3001/api/update/users");
+    alert(user?.username);
+  }, []);
 
   return (
     <Modal

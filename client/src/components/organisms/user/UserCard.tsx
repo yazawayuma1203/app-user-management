@@ -1,5 +1,5 @@
 import { Box, Image, Stack, Text } from "@chakra-ui/react";
-import React, { memo, VFC } from "react";
+import React, { memo, FC } from "react";
 
 type Props = {
   id: number;
@@ -9,7 +9,7 @@ type Props = {
   onClick: (id: number) => void;
 };
 
-export const UserCard: VFC<Props> = memo((props) => {
+export const UserCard: FC<Props> = memo((props) => {
   const { id, imageUrl, userName, fullName, onClick } = props;
   return (
     <Box

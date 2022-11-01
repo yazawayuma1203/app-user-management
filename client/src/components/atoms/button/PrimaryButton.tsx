@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import React, { memo, ReactNode, VFC } from "react";
+import React, { memo, ReactNode, FC } from "react";
 
 type Props = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const PrimaryButton: VFC<Props> = memo((props) => {
+export const PrimaryButton: FC<Props> = memo((props) => {
   const { children, disabled = false, loading = false, onClick } = props;
   return (
     <Button

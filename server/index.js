@@ -10,20 +10,24 @@ const db = mysql.createPool({
   user: 'admin',
   password: 'YZWa1203',
   database: 'mytraining_users',
+  port: '3306',
 });
 
 app.get("/api/get/users", (req, res) => {
   const sqlSelect = "SELECT * FROM users";
   db.query(sqlSelect, (err, result) => {
-  res.send(result);
+    if (err) {
+      console.log(`err:${err}`);
+    } else {
+      res.send(result);
+    };
   });
 });
 
 app.get("/api/update/users", (req, res) => {
     const sqlUpdate = `UPDATE users SET username="testQ" WHERE id=1`;
     db.query(sqlUpdate, (err, result) => {
-    res.send(result);
-    console.log("aaaaaaa");
+    res.send(result)
     });
 });
 

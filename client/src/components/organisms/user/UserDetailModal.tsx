@@ -12,7 +12,7 @@ import {
   ModalFooter
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { ChangeEvent, memo, useCallback, useEffect, useState, VFC } from "react";
+import React, { ChangeEvent, memo, useCallback, useEffect, useState, FC } from "react";
 
 import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
@@ -25,7 +25,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const UserDetailModal: VFC<Props> = memo((props) => {
+export const UserDetailModal: FC<Props> = memo((props) => {
   const { isOpen, onClose, user, isAdmin = false } = props;
 
   const [username, setUserName] = useState("");
@@ -54,7 +54,7 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
     axios
       .get("http://localhost:3001/api/update/users");
     alert(user?.username);
-  }, []);
+  }, [user]);
 
   return (
     <Modal

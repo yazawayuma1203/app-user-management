@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
-import React, { memo, useCallback, VFC } from "react";
+import React, { memo, useCallback, FC } from "react";
 import { useHistory } from "react-router-dom";
 
 import { MenuIconButton } from "../../atoms/button/MenuIconButton";
 import { MenuDrawer } from "../../molecules/MenuDrawer";
 
-export const Header: VFC = memo(() => {
+export const Header: FC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
 

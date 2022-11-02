@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { ChangeEvent, memo, useCallback, useEffect, useState, FC } from "react";
+import { useHistory } from "react-router-dom";
 
 import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
@@ -32,6 +33,8 @@ export const UserDetailModal: FC<Props> = memo((props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     setUserName(user?.username ?? "");
@@ -56,10 +59,15 @@ export const UserDetailModal: FC<Props> = memo((props) => {
       url: "http://localhost:3001/api/update/users",
       data: {
         id:user?.id,
-        username:user?.username
+        username:username,
       }
-    });
-    alert(user?.username);
+    })
+    .then( 
+      useCallback(
+        () => history.push("/home/user_management"), []
+      )
+    );
+    alert(username);
   }, [user]);
 
   return (

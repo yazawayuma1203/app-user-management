@@ -51,8 +51,14 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const onClickUpdate = useCallback(() => {
     alert(user?.toString());
-    axios
-      .get("http://localhost:3001/api/update/users");
+    axios({
+      method: "get",
+      url: "http://localhost:3001/api/update/users",
+      data: {
+        id:user?.id,
+        username:user?.username
+      }
+    });
     alert(user?.username);
   }, [user]);
 

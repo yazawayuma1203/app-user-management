@@ -56,7 +56,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
     alert(user?.toString());
     axios({
       method: "get",
-      url: "http://localhost:3001/api/update/users",
+      url: "http://localhost:3001/api/update/user",
       data: {
         id:user?.id,
         username:username,

@@ -14,7 +14,7 @@ const db = mysql.createConnection({
   connectTimeout: '60000',
 });
 
-app.get("/api/get/users", (req, res) => {
+app.get("/api/get/user", (req, res) => {
   db.connect();
   const sqlSelect = "SELECT * FROM users";
   db.query(sqlSelect, (err, result) => {
@@ -27,12 +27,15 @@ app.get("/api/get/users", (req, res) => {
   db.end();
 });
 
-app.get("/api/update/users", (req, res) => {
-    const username = req.body.id;
-    const sqlUpdate = "UPDATE users SET ?" 
-    db.query(sqlUpdate, {username: username}, (err, result) => {
+app.get("/api/update/user", (req, res) => {
+  db.connect();
+  const id = req.body.id;
+  const username = req.body.username;
+  const sqlUpdate = "UPDATE users SET username = ? WHERE id = ?" 
+  db.query(sqlUpdate, [username, id], (err, result) => {
     res.send(result)
-    });
+  });
+  db.end();
 });
 
 app.listen(3001, () => {

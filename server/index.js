@@ -5,6 +5,11 @@ const mysql = require('mysql2');
 
 app.use(cors());
 
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+
 const db = mysql.createConnection({
   host: 'mytraining-instance-1.c2gi8p2sqn7z.ap-northeast-1.rds.amazonaws.com',
   user: 'admin',
@@ -27,8 +32,8 @@ app.get("/api/get/user", (req, res) => {
   });
 });
 
-app.get("/api/update/user", (req, res) => {
-  console.log(req.params);
+app.post("/api/update/user", (req, res) => {
+  console.log(req.body);
   const id = req.params.id;
   const username = req.params.username;
   const sqlUpdate = "UPDATE users SET username = ? WHERE id = ?" 

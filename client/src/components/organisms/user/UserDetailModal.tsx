@@ -53,14 +53,12 @@ export const UserDetailModal: FC<Props> = memo((props) => {
     setPhone(e.target.value);
 
   const onClickUpdate = useCallback(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:3001/api/update/user",
-      data: {
-        id:user?.id,
-        username:username,
-      }
-    })
+    alert(username);
+    const data ={
+      id:user?.id,
+      username:username,
+    };
+    axios.post("http://localhost:3001/api/update/user", data)
     .then(()=> {
       history.push("/home/user_management");
     });

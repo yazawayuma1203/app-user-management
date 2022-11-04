@@ -53,7 +53,6 @@ export const UserDetailModal: FC<Props> = memo((props) => {
     setPhone(e.target.value);
 
   const onClickUpdate = useCallback(() => {
-    alert(username);
     const data ={
       id:user?.id,
       username:username,

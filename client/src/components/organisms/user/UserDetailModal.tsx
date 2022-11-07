@@ -54,10 +54,14 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const onClickUpdate = () => {
     const data ={
-      id:user?.id,
-      username:username,
+      id: user?.id,
+      username: username,
+      name: name,
+      email: email,
+      phone: phone,
     };
-    alert(`id:${data.id} username:${data.username}`)
+    alert(`id:${data.id} username:${data.username} name:${name}, email:${email}, phone:${phone}`);
+
     axios.post("http://localhost:3001/api/update/user", data)
     .then(()=> {
       history.push("/home/user_management");

@@ -36,8 +36,11 @@ app.post("/api/update/user", (req, res) => {
   console.log(req.body);
   const id = req.body.id;
   const username = req.body.username;
-  const sqlUpdate = "UPDATE users SET username = ? WHERE id = ?";
-  db.query(sqlUpdate, [username, id], (err, result, fields) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const sqlUpdate = "UPDATE users SET username = ? , name = ? , email = ? , phone = ? WHERE id = ?;";
+  db.query(sqlUpdate, [username, name, email, phone, id], (err, result, fields) => {
     res.send(result);
   });
 });

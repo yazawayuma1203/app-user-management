@@ -34,11 +34,11 @@ app.get("/api/get/user", (req, res) => {
 
 app.post("/api/update/user", (req, res) => {
   console.log(req.body);
-  const id = req.params.id;
-  const username = req.params.username;
-  const sqlUpdate = "UPDATE users SET username = ? WHERE id = ?" 
-  db.query(sqlUpdate, [username, id], (err, result) => {
-    res.send(result)
+  const id = req.body.id;
+  const username = req.body.username;
+  const sqlUpdate = "UPDATE users SET username = ? WHERE id = ?";
+  db.query(sqlUpdate, [username, id], (err, result, fields) => {
+    res.send(result);
   });
 });
 

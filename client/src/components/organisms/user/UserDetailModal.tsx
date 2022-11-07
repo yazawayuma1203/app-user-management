@@ -12,7 +12,7 @@ import {
   ModalFooter
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { ChangeEvent, memo, useCallback, useEffect, useState, FC } from "react";
+import React, { ChangeEvent, memo, useEffect, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
 
 import { User } from "../../../types/api/user";
@@ -52,16 +52,17 @@ export const UserDetailModal: FC<Props> = memo((props) => {
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) =>
     setPhone(e.target.value);
 
-  const onClickUpdate = useCallback(() => {
+  const onClickUpdate = () => {
     const data ={
       id:user?.id,
       username:username,
     };
+    alert(`id:${data.id} username:${data.username}`)
     axios.post("http://localhost:3001/api/update/user", data)
     .then(()=> {
       history.push("/home/user_management");
     });
-  }, [user]);
+  };
 
   return (
     <Modal

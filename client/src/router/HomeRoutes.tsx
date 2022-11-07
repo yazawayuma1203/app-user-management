@@ -1,6 +1,7 @@
 import React from "react";
 import { Home } from "../components/pages/Home";
 import { UserManagement } from "../components/pages/UserManagement";
+import { AddUser } from "../components/pages/AddUser";
 import { Setting } from "../components/pages/Setting";
 import { Page404 } from "../components/pages/Page404";
 
@@ -14,6 +15,11 @@ export const homeRoutes = [
     path: "/user_management",
     exact: false,
     chidren: <UserManagement />
+  },
+  {
+    path: "/add_user",
+    exact: false,
+    chidren: <AddUser />
   },
   {
     path: "/setting",

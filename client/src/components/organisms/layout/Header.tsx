@@ -15,6 +15,10 @@ export const Header: FC = memo(() => {
     () => history.push("/home/user_management"),
     []
   );
+  const onClickAddUser = useCallback(
+    () => history.push("/home/add_user"),
+    []
+  );
   const oncClickSetting = useCallback(() => history.push("/home/setting"), []);
 
   return (
@@ -47,7 +51,12 @@ export const Header: FC = memo(() => {
           <Box pr={4}>
             <Link onClick={oncClickUserManagement}>ユーザー一覧</Link>
           </Box>
-          <Link onClick={oncClickSetting}>設定</Link>
+          <Box pr={6}>
+            <Link onClick={onClickAddUser}>ユーザー追加</Link>
+          </Box>
+          <Box pr={8}>
+            <Link onClick={oncClickSetting}>設定</Link>
+          </Box>
         </Flex>
         <MenuIconButton onOpen={onOpen} />
       </Flex>

@@ -11,9 +11,11 @@ import React, { memo, useCallback, useEffect, FC } from "react";
 
 import { UserCard } from "../organisms/user/UserCard";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
+import { UserDetailModalAdd } from "../organisms/user/UserDetailModalAdd";
 import { useAllUsers } from "../../hooks/useAllUsers";
 import { useSelectUser } from "../../hooks/useSelectUser";
 import { useLoginUser } from "../../hooks/useLoginUser";
+import { PrimaryButton } from "../atoms/button/PrimaryButton";
 
 export const UserManagement: FC = memo(() => {
   const { getUsers, loading, users } = useAllUsers();
@@ -28,6 +30,11 @@ export const UserManagement: FC = memo(() => {
       onSelectUser({ id, users, onOpen });
     },
     [users, onSelectUser, onOpen]
+  );
+
+  const onClickAdd = useCallback(
+    () => onOpen(),
+    []
   );
 
   return (
@@ -49,10 +56,16 @@ export const UserManagement: FC = memo(() => {
               />
             </WrapItem>
           ))}
+          <PrimaryButton bg="teal.400" onClick={onClickAdd}>ユーザー追加</PrimaryButton>
         </Wrap>
       )}
       <UserDetailModal
         user={selectedUser}
+        isOpen={isOpen}
+        onClose={onClose}
+        isAdmin={loginUser?.isAdmin}
+      />
+      <UserDetailModalAdd
         isOpen={isOpen}
         onClose={onClose}
         isAdmin={loginUser?.isAdmin}

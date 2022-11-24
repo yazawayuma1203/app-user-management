@@ -28,6 +28,7 @@ export const Login: FC = memo(() => {
             onChange={onChangeUserId}
           />
           <PrimaryButton
+            bg="teal.400"
             loading={loading}
             disabled={userId === ""}
             onClick={onCLickLogin}

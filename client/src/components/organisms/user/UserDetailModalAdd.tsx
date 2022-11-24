@@ -13,23 +13,21 @@ import {
   ButtonGroup
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { ChangeEvent, memo, useEffect, useState, FC } from "react";
+import React, { ChangeEvent, memo, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
 
-import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
 import { useMessage } from "../../../hooks/useMessage"
 
 
 type Props = {
-  user: User | null;
   isOpen: boolean;
   isAdmin?: boolean;
   onClose: () => void;
 };
 
-export const UserDetailModal: FC<Props> = memo((props) => {
-  const { isOpen, onClose, user, isAdmin = true } = props;
+export const UserDetailModalAdd: FC<Props> = memo((props) => {
+  const { isOpen, onClose, isAdmin = true } = props;
 
   const [username, setUserName] = useState("");
   const [name, setName] = useState("");
@@ -38,13 +36,6 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const history = useHistory();
   const { showMessage } = useMessage();
-
-  useEffect(() => {
-    setUserName(user?.username ?? "");
-    setName(user?.name ?? "");
-    setEmail(user?.email ?? "");
-    setPhone(user?.phone ?? "");
-  }, [user]);
 
   const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) =>
     setUserName(e.target.value);
@@ -55,30 +46,9 @@ export const UserDetailModal: FC<Props> = memo((props) => {
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) =>
     setPhone(e.target.value);
 
-  const onClickUpdate = () => {
-    const data ={
-      id: user?.id,
-      username: username,
-      name: name,
-      email: email,
-      phone: phone,
-    };
-    axios.post("http://localhost:3001/api/update/user", data)
-    .then(()=> {
-      showMessage({ title: "正常に更新されました", status: "success" });
-      window.location.reload();
-    });
-  };
-
-  const onClickDelete = () => {
-    const data ={
-      id: user?.id
-    };
-    axios.post("http://localhost:3001/api/delete/user", data)
-    .then(()=> {
-      history.push("/home/");
-    });
-  };
+  const onClickAdd = () => {
+    alert("追加");
+  }
 
   return (
     <Modal
@@ -130,8 +100,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
           {isAdmin && (
             <ModalFooter>
               <ButtonGroup spacing={2}>
-              <PrimaryButton bg="teal.400" onClick={onClickUpdate}>更新</PrimaryButton>
-              <PrimaryButton bg="red.400" onClick={onClickDelete}>削除</PrimaryButton>
+              <PrimaryButton bg="teal.400" onClick={onClickAdd}>追加</PrimaryButton>
               </ButtonGroup>
             </ModalFooter>
           )}

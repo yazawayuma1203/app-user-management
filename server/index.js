@@ -45,6 +45,15 @@ app.post("/api/update/user", (req, res) => {
   });
 });
 
+app.post("/api/delete/user", (req, res) => {
+  console.log(req.body);
+  const id = req.body.id;
+  const sqlDelete = "DELETE FROM users WHERE id = ?;";
+  db.query(sqlDelete, [id], (err, result, fields) => {
+    res.send(result);
+  });
+});
+
 app.listen(3001, () => {
     console.log('running on port 3001');
 });

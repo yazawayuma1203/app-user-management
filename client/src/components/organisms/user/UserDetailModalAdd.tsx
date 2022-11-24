@@ -34,7 +34,6 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const history = useHistory();
   const { showMessage } = useMessage();
 
   const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) =>
@@ -69,7 +68,7 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
     >
       <ModalOverlay>
         <ModalContent pb={2}>
-          <ModalHeader>ユーザー詳細</ModalHeader>
+          <ModalHeader>ユーザー追加</ModalHeader>
           <ModalCloseButton />
           <ModalBody mx={4}>
             <Stack spacing={4}>

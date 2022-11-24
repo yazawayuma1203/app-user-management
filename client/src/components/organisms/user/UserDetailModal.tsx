@@ -36,7 +36,6 @@ export const UserDetailModal: FC<Props> = memo((props) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const history = useHistory();
   const { showMessage } = useMessage();
 
   useEffect(() => {
@@ -76,7 +75,8 @@ export const UserDetailModal: FC<Props> = memo((props) => {
     };
     axios.post("http://localhost:3001/api/delete/user", data)
     .then(()=> {
-      history.push("/home/");
+      showMessage({ title: "正常に削除されました", status: "success" });
+      window.location.reload();
     });
   };
 

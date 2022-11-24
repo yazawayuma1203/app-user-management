@@ -7,7 +7,7 @@ import {
   Wrap,
   WrapItem
 } from "@chakra-ui/react";
-import React, { memo, useCallback, useEffect, FC } from "react";
+import React, { memo, useState, useCallback, useEffect, FC } from "react";
 
 import { UserCard } from "../organisms/user/UserCard";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
@@ -22,18 +22,26 @@ export const UserManagement: FC = memo(() => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { onSelectUser, selectedUser } = useSelectUser();
   const { loginUser } = useLoginUser();
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => getUsers(), []);
 
   const onClickUser = useCallback(
     (id: number) => {
+      setIsUpdate(true);
+      setIsAdd(false);
       onSelectUser({ id, users, onOpen });
     },
     [users, onSelectUser, onOpen]
   );
 
   const onClickAdd = useCallback(
-    () => onOpen(),
+    () => {
+      setIsAdd(true);
+      setIsUpdate(false);
+      onOpen();
+    },
     []
   );
 
@@ -59,17 +67,21 @@ export const UserManagement: FC = memo(() => {
           <PrimaryButton bg="teal.400" onClick={onClickAdd}>ユーザー追加</PrimaryButton>
         </Wrap>
       )}
-      <UserDetailModal
-        user={selectedUser}
-        isOpen={isOpen}
-        onClose={onClose}
-        isAdmin={loginUser?.isAdmin}
-      />
-      <UserDetailModalAdd
-        isOpen={isOpen}
-        onClose={onClose}
-        isAdmin={loginUser?.isAdmin}
-      />
+      {isUpdate && (
+        <UserDetailModal
+          user={selectedUser}
+          isOpen={isOpen}
+          onClose={onClose}
+          isAdmin={loginUser?.isAdmin}
+        />
+      )}
+      {isAdd && (
+        <UserDetailModalAdd
+          isOpen={isOpen}
+          onClose={onClose}
+          isAdmin={loginUser?.isAdmin}
+        />
+      )}
     </>
   );
 });

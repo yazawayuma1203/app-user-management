@@ -32,6 +32,20 @@ app.get("/api/get/user", (req, res) => {
   });
 });
 
+app.post("/api/insert/user", (req, res) => {
+  console.log(req.body);
+  const username = req.body.username;
+  const name = req.body.name;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const created_at = Date(Date.now());
+  console.log(created_at);
+  const sqlInsert = "INSERT INTO users (username, name, email, phone, created_at) VALUES (?, ?, ?, ?, ?);";
+  db.query(sqlInsert, [username, name, email, phone, created_at], (err, result, fields) => {
+    res.send(result);
+  });
+});
+
 app.post("/api/update/user", (req, res) => {
   console.log(req.body);
   const id = req.body.id;

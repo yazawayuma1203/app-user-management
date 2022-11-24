@@ -47,7 +47,17 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
     setPhone(e.target.value);
 
   const onClickAdd = () => {
-    alert("追加");
+    const data ={
+      username: username,
+      name: name,
+      email: email,
+      phone: phone,
+    };
+    axios.post("http://localhost:3001/api/insert/user", data)
+    .then(()=> {
+      showMessage({ title: "正常に追加されました", status: "success" });
+      window.location.reload();
+    });
   }
 
   return (

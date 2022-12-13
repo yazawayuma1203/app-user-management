@@ -1,8 +1,10 @@
 /*eslint-disable react-hooks/exhaustive-deps */
 
 import {
+  Box,
   Center,
   Spinner,
+  Stack,
   useDisclosure,
   Wrap,
   WrapItem
@@ -64,7 +66,14 @@ export const UserManagement: FC = memo(() => {
               />
             </WrapItem>
           ))}
-          <PrimaryButton bg="teal.400" onClick={onClickAdd}>ユーザー追加</PrimaryButton>
+          <Box
+            w="260px"
+            h="260px"
+          >
+            <Center h="260px">
+              <PrimaryButton bg="teal.400" onClick={onClickAdd}>ユーザー追加</PrimaryButton>
+            </Center>
+          </Box>
         </Wrap>
       )}
       {isUpdate && (

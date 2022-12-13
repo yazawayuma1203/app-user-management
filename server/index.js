@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 }));
 
 const db = mysql.createConnection({
-  host: 'mytraining-instance-1.c2gi8p2sqn7z.ap-northeast-1.rds.amazonaws.com',
+  host: 'mytraining.cluster-c2gi8p2sqn7z.ap-northeast-1.rds.amazonaws.com',
   user: 'admin',
   password: 'YZWa1203',
   database: 'mytraining_users',
@@ -38,10 +38,8 @@ app.post("/api/insert/user", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const phone = req.body.phone;
-  const created_at = Date(Date.now());
-  console.log(created_at);
-  const sqlInsert = "INSERT INTO users (username, name, email, phone, created_at) VALUES (?, ?, ?, ?, ?);";
-  db.query(sqlInsert, [username, name, email, phone, created_at], (err, result, fields) => {
+  const sqlInsert = "INSERT INTO users (username, name, email, phone) VALUES (?, ?, ?, ?);";
+  db.query(sqlInsert, [username, name, email, phone], (err, result, fields) => {
     res.send(result);
   });
 });

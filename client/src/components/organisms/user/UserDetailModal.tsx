@@ -2,6 +2,7 @@ import {
   Stack,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Modal,
   ModalBody,
@@ -14,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { ChangeEvent, memo, useEffect, useState, FC } from "react";
-import { useHistory } from "react-router-dom";
 
 import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
@@ -38,6 +38,18 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const { showMessage } = useMessage();
 
+  let isUsernameError = false;
+  let usernameErrorMessage = "";
+
+  let isNameError = false;
+  let nameErrorMessage = "";
+
+  let isEmailError = false;
+  let emailErrorMessage = "";
+
+  let isPhoneError = false;
+  let phoneErrorMessage = "";
+
   useEffect(() => {
     setUserName(user?.username ?? "");
     setName(user?.name ?? "");
@@ -47,13 +59,58 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) =>
     setUserName(e.target.value);
+    if (username === "") {
+      isUsernameError = true;
+      usernameErrorMessage = "名前を入力してください";
+    } else if (username.length > 255) {
+      isUsernameError = true;
+      usernameErrorMessage = "文字数は255字以内にしてください";
+    } else {
+      isUsernameError = false;
+      usernameErrorMessage = "";
+    };
+
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) =>
     setName(e.target.value);
+    if (name === "") {
+      isNameError = true;
+      nameErrorMessage = "フルネームを入力してください";
+    } else if (name.length > 255) {
+      isNameError = true;
+      nameErrorMessage = "文字数は255字以内にしてください";
+    } else {
+      isNameError = false;
+      nameErrorMessage = "";
+    };
+
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) =>
     setEmail(e.target.value);
+    const mailPattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+    if (email === "") {
+      isEmailError = true;
+      emailErrorMessage = "MAILを入力してください";
+    } else if (!(mailPattern.test(email))) {
+      isEmailError = true;
+      emailErrorMessage = "正しい形式で入力してください";
+    } else {
+      isEmailError = false;
+      emailErrorMessage = "";
+    };
+
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) =>
     setPhone(e.target.value);
-
+    const telPattern = /^0[789]0-[0-9]{4}-[0-9]{4}$/;
+    if (phone === "") {
+      isPhoneError = true;
+      phoneErrorMessage = "携帯電話番号を入力してください";
+    } else if (!(telPattern.test(phone))) {
+      isPhoneError = true;
+      phoneErrorMessage = "正しい形式で入力してください";
+    } else {
+      isPhoneError = false;
+      phoneErrorMessage = "";
+    };
+    
   const onClickUpdate = () => {
     const data ={
       id: user?.id,
@@ -62,6 +119,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
       email: email,
       phone: phone,
     };
+
     axios.post("http://localhost:3001/api/update/user", data)
     .then(()=> {
       showMessage({ title: "正常に更新されました", status: "success" });
@@ -93,44 +151,68 @@ export const UserDetailModal: FC<Props> = memo((props) => {
           <ModalCloseButton />
           <ModalBody mx={4}>
             <Stack spacing={4}>
-              <FormControl>
+              <FormControl isInvalid={isUsernameError}>
                 <FormLabel>名前</FormLabel>
                 <Input
                   value={username}
                   onChange={onChangeUserName}
                   isReadOnly={!isAdmin}
                 />
+                {isUsernameError ? (
+                  <FormErrorMessage>{usernameErrorMessage}</FormErrorMessage>
+                ) : (
+                  <></>
+                )
+                }
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={isNameError}>
                 <FormLabel>フルネーム</FormLabel>
                 <Input
                   value={name}
                   onChange={onChangeName}
                   isReadOnly={!isAdmin}
                 />
+                {isNameError ? (
+                  <FormErrorMessage>{nameErrorMessage}</FormErrorMessage>
+                ) : (
+                  <></>
+                )
+                }
               </FormControl>
-              <FormControl>
-                <FormLabel>MAIL</FormLabel>
+              <FormControl isInvalid={isEmailError}>
+                <FormLabel>メールアドレス</FormLabel>
                 <Input
                   value={email}
                   onChange={onChangeEmail}
                   isReadOnly={!isAdmin}
                 />
+                {isEmailError ? (
+                  <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                ) : (
+                  <></>
+                )
+                }
               </FormControl>
-              <FormControl>
-                <FormLabel>TEL</FormLabel>
+              <FormControl isInvalid={isPhoneError}>
+                <FormLabel>携帯電話番号(11桁・ハイフンあり)</FormLabel>
                 <Input
                   value={phone}
                   onChange={onChangePhone}
                   isReadOnly={!isAdmin}
                 />
+                {isPhoneError ? (
+                  <FormErrorMessage>{phoneErrorMessage}</FormErrorMessage>
+                ) : (
+                  <></>
+                )
+                }
               </FormControl>
             </Stack>
           </ModalBody>
           {isAdmin && (
             <ModalFooter>
               <ButtonGroup spacing={2}>
-              <PrimaryButton bg="teal.400" onClick={onClickUpdate}>更新</PrimaryButton>
+              <PrimaryButton bg="teal.400" disabled={isUsernameError || isNameError || isEmailError || isPhoneError} onClick={onClickUpdate}>更新</PrimaryButton>
               <PrimaryButton bg="red.400" onClick={onClickDelete}>削除</PrimaryButton>
               </ButtonGroup>
             </ModalFooter>

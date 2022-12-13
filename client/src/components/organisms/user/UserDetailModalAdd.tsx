@@ -36,8 +36,8 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
 
   const { showMessage } = useMessage();
 
-  let isUsernameError = false;
-  let usernameErrorMessage = "";
+  const [isUsernameError, setIsUsernameError] = useState(false);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
 
   let isNameError = false;
   let nameErrorMessage = "";
@@ -48,18 +48,20 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   let isPhoneError = false;
   let phoneErrorMessage = "";
 
-  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
+    alert(username);
     if (username === "") {
-      isUsernameError = true;
-      usernameErrorMessage = "名前を入力してください";
+      setIsUsernameError(true);
+      setUsernameErrorMessage("名前を入力してください");
     } else if (username.length > 255) {
-      isUsernameError = true;
-      usernameErrorMessage = "文字数は255字以内にしてください";
+      setIsUsernameError(true);
+      setUsernameErrorMessage("文字数は255字以内にしてください");
     } else {
-      isUsernameError = false;
-      usernameErrorMessage = "";
+      setIsUsernameError(false);
+      setUsernameErrorMessage("");
     };
+  };
 
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) =>
     setName(e.target.value);
@@ -133,7 +135,7 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
                 <FormLabel>名前</FormLabel>
                 <Input
                   value={username}
-                  onChange={onChangeUserName}
+                  onChange={event => onChangeUserName(event)}
                   isReadOnly={!isAdmin}
                 />
                 {isUsernameError ? (

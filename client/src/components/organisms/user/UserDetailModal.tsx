@@ -59,6 +59,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
 
   const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) =>
     setUserName(e.target.value);
+    alert(username);
     if (username === "") {
       isUsernameError = true;
       usernameErrorMessage = "名前を入力してください";

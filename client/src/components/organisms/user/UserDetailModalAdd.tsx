@@ -36,8 +36,8 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
 
   const { showMessage } = useMessage();
 
-  const [isUsernameError, setIsUsernameError] = useState(false);
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+  let isUsernameError = false;
+  let usernameErrorMessage = "";
 
   let isNameError = false;
   let nameErrorMessage = "";
@@ -48,61 +48,63 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   let isPhoneError = false;
   let phoneErrorMessage = "";
 
-  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-    alert(username);
-    if (username === "") {
-      setIsUsernameError(true);
-      setUsernameErrorMessage("名前を入力してください");
-    } else if (username.length > 255) {
-      setIsUsernameError(true);
-      setUsernameErrorMessage("文字数は255字以内にしてください");
-    } else {
-      setIsUsernameError(false);
-      setUsernameErrorMessage("");
-    };
+  const onChangeUserName = (e: ChangeEvent<HTMLInputElement>) => setUserName(e.target.value);
+  
+  //username入力チェック
+  if (username === "") {
+    isUsernameError = true;
+    usernameErrorMessage = "名前を入力してください";
+  } else if (username.length > 255) {
+    isUsernameError = true;
+    usernameErrorMessage =  "文字数は255字以内にしてください";
+  } else {
+    isUsernameError =false;
+    usernameErrorMessage = "";
   };
 
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) =>
-    setName(e.target.value);
-    if (name === "") {
-      isNameError = true;
-      nameErrorMessage = "フルネームを入力してください";
-    } else if (name.length > 255) {
-      isNameError = true;
-      nameErrorMessage = "文字数は255字以内にしてください";
-    } else {
-      isNameError = false;
-      nameErrorMessage = "";
-    };
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  
+  //name入力チェック
+  if (name === "") {
+    isNameError = true;
+    nameErrorMessage = "フルネームを入力してください";
+  } else if (name.length > 255) {
+    isNameError = true;
+    nameErrorMessage = "文字数は255字以内にしてください";
+  } else {
+    isNameError = false;
+    nameErrorMessage = "";
+  };
 
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) =>
-    setEmail(e.target.value);
-    const mailPattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-    if (email === "") {
-      isEmailError = true;
-      emailErrorMessage = "MAILを入力してください";
-    } else if (!(mailPattern.test(email))) {
-      isEmailError = true;
-      emailErrorMessage = "正しい形式で入力してください";
-    } else {
-      isEmailError = false;
-      emailErrorMessage = "";
-    };
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  
+  //メールアドレス入力チェック
+  const mailPattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+  if (email === "") {
+    isEmailError = true;
+    emailErrorMessage = "MAILを入力してください";
+  } else if (!(mailPattern.test(email))) {
+    isEmailError = true;
+    emailErrorMessage = "正しい形式で入力してください";
+  } else {
+    isEmailError = false;
+    emailErrorMessage = "";
+  };
 
-  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) =>
-    setPhone(e.target.value);
-    const telPattern = /^0[789]0-[0-9]{4}-[0-9]{4}$/;
-    if (phone === "") {
-      isPhoneError = true;
-      phoneErrorMessage = "携帯電話番号を入力してください";
-    } else if (!(telPattern.test(phone))) {
-      isPhoneError = true;
-      phoneErrorMessage = "正しい形式で入力してください";
-    } else {
-      isPhoneError = false;
-      phoneErrorMessage = "";
-    };
+  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => setPhone(e.target.value);
+    
+  //電話番号入力チェック
+  const telPattern = /^0[789]0-[0-9]{4}-[0-9]{4}$/;
+  if (phone === "") {
+    isPhoneError = true;
+    phoneErrorMessage = "携帯電話番号を入力してください";
+  } else if (!(telPattern.test(phone))) {
+    isPhoneError = true;
+    phoneErrorMessage = "正しい形式で入力してください";
+  } else {
+    isPhoneError = false;
+    phoneErrorMessage = "";
+  };    
 
   const onClickAdd = () => {
     const data ={

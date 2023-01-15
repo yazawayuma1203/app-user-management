@@ -35,6 +35,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [userIcon, setUserIcon] = useState<File>();
 
   const { showMessage } = useMessage();
 
@@ -110,17 +111,39 @@ export const UserDetailModal: FC<Props> = memo((props) => {
       isPhoneError = false;
       phoneErrorMessage = "";
     };
+
+    const onChangeUserIcon = (e: ChangeEvent<HTMLInputElement>) => {
+      if(!e.target.files) return
+      setUserIcon(e.target.files[0]);
+    }
     
   const onClickUpdate = () => {
-    const data ={
-      id: user?.id,
-      username: username,
-      name: name,
-      email: email,
-      phone: phone,
-    };
+    // const data ={
+    //   id: user?.id,
+    //   username: username,
+    //   name: name,
+    //   email: email,
+    //   phone: phone,
+    //   // eslint-disable-next-line
+    //   userIconPath: "C:\Users\yazaw\OneDrive\デスクトップ\アイコン保存フォルダ",
+    //   userIcon: userIcon,
+    // };
 
-    axios.post("http://localhost:3001/api/update/user", data)
+    const data = new FormData();
+    data.append("id", user?.id.toString() ? user?.id.toString() : "IDなし" );
+    data.append("username", username);
+    data.append("name", name);
+    data.append("email", email);
+    data.append("phone", phone);
+    // eslint-disable-next-line
+    data.append("userIconPath", "C:\Users\yazaw\OneDrive\デスクトップ\アイコン保存フォルダ");
+    data.append("userIcon", userIcon);
+
+    axios.post("http://localhost:3001/api/update/user", data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     .then(()=> {
       showMessage({ title: "正常に更新されました", status: "success" });
       window.location.reload();
@@ -206,6 +229,10 @@ export const UserDetailModal: FC<Props> = memo((props) => {
                   <></>
                 )
                 }
+              </FormControl>
+              <FormControl>
+                <FormLabel>アイコン</FormLabel>
+                <input id="img" type="file" accept="image/*,.png,.jpg,.jpeg,.gif" onChange={onChangeUserIcon} />
               </FormControl>
             </Stack>
           </ModalBody>

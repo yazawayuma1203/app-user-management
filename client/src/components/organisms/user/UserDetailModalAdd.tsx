@@ -34,7 +34,6 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [userIcon, setUserIcon] = useState<File>();
-  const [userIconName, setUserIconName] = useState("");
 
   const { showMessage } = useMessage();
 

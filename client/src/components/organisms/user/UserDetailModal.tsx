@@ -130,14 +130,15 @@ export const UserDetailModal: FC<Props> = memo((props) => {
     // };
 
     const data = new FormData();
-    data.append("id", user?.id.toString() ? user?.id.toString() : "IDなし" );
+    data.append("id", user?.id.toString()!);
+    //data.append("id", user?.id.toString() ? user?.id.toString() : "IDなし" );
     data.append("username", username);
     data.append("name", name);
     data.append("email", email);
     data.append("phone", phone);
     // eslint-disable-next-line
     data.append("userIconPath", "C:\Users\yazaw\OneDrive\デスクトップ\アイコン保存フォルダ");
-    data.append("userIcon", userIcon);
+    data.append("userIcon", userIcon!, userIcon?.name);
 
     axios.post("http://localhost:3001/api/update/user", data, {
       headers: {

@@ -116,39 +116,32 @@ export const UserDetailModal: FC<Props> = memo((props) => {
       if(!e.target.files) return
       setUserIcon(e.target.files[0]);
     }
-    
+
   const onClickUpdate = () => {
-    // const data ={
-    //   id: user?.id,
-    //   username: username,
-    //   name: name,
-    //   email: email,
-    //   phone: phone,
-    //   // eslint-disable-next-line
-    //   userIconPath: "C:\Users\yazaw\OneDrive\デスクトップ\アイコン保存フォルダ",
-    //   userIcon: userIcon,
-    // };
+    const userdata ={
+      id: user?.id,
+      username: username,
+      name: name,
+      email: email,
+      phone: phone,
+      userIcon: userIcon?.name,
+    };
 
-    const data = new FormData();
-    data.append("id", user?.id.toString()!);
-    //data.append("id", user?.id.toString() ? user?.id.toString() : "IDなし" );
-    data.append("username", username);
-    data.append("name", name);
-    data.append("email", email);
-    data.append("phone", phone);
-    // eslint-disable-next-line
-    data.append("userIconPath", "C:\Users\yazaw\OneDrive\デスクトップ\アイコン保存フォルダ");
-    data.append("userIcon", userIcon!, userIcon?.name);
-
-    axios.post("http://localhost:3001/api/update/user", data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    axios.post("http://localhost:3001/api/update/user", userdata)
     .then(()=> {
       showMessage({ title: "正常に更新されました", status: "success" });
       window.location.reload();
     });
+
+    const iconData = new FormData();
+    iconData.append("userIcon", userIcon!, userIcon?.name);
+
+    axios.post("http://localhost:3001/api/image", iconData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+
   };
 
   const onClickDelete = () => {
@@ -240,7 +233,7 @@ export const UserDetailModal: FC<Props> = memo((props) => {
           {isAdmin && (
             <ModalFooter>
               <ButtonGroup spacing={2}>
-              <PrimaryButton bg="teal.400" disabled={isUsernameError || isNameError || isEmailError || isPhoneError} onClick={onClickUpdate}>更新</PrimaryButton>
+              <PrimaryButton bg="teal.400" disabled={isUsernameError || isNameError || isEmailError || isPhoneError } onClick={onClickUpdate}>更新</PrimaryButton>
               <PrimaryButton bg="red.400" onClick={onClickDelete}>削除</PrimaryButton>
               </ButtonGroup>
             </ModalFooter>

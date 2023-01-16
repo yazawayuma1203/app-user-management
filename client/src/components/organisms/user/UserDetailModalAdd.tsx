@@ -33,6 +33,8 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [userIcon, setUserIcon] = useState<File>();
+  const [userIconName, setUserIconName] = useState("");
 
   const { showMessage } = useMessage();
 
@@ -104,7 +106,12 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
   } else {
     isPhoneError = false;
     phoneErrorMessage = "";
-  };    
+  };
+  
+  const onChangeUserIcon = (e: ChangeEvent<HTMLInputElement>) => {
+    if(!e.target.files) return
+    setUserIcon(e.target.files[0]);
+  }
 
   const onClickAdd = () => {
     const data ={
@@ -118,6 +125,15 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
       showMessage({ title: "正常に追加されました", status: "success" });
       window.location.reload();
     });
+
+    const iconData = new FormData();
+    iconData.append("userIcon", userIcon!, userIcon?.name);
+
+    axios.post("http://localhost:3001/api/image", iconData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   }
 
   return (
@@ -188,6 +204,10 @@ export const UserDetailModalAdd: FC<Props> = memo((props) => {
                   <></>
                 )
                 }
+              </FormControl>
+              <FormControl>
+                <FormLabel>アイコン</FormLabel>
+                <input id="img" type="file" accept="image/*,.png,.jpg,.jpeg,.gif" onChange={onChangeUserIcon} />
               </FormControl>
             </Stack>
           </ModalBody>

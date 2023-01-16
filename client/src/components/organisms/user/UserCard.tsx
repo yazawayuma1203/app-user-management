@@ -3,14 +3,14 @@ import React, { memo, FC } from "react";
 
 type Props = {
   id: number;
-  imageUrl: string;
+  userIconName: string;
   userName: string;
   fullName: string;
   onClick: (id: number) => void;
 };
 
 export const UserCard: FC<Props> = memo((props) => {
-  const { id, imageUrl, userName, fullName, onClick } = props;
+  const { id, userIconName, userName, fullName, onClick } = props;
   return (
     <Box
       w="260px"
@@ -26,7 +26,7 @@ export const UserCard: FC<Props> = memo((props) => {
         <Image
           borderRadius="full"
           boxSize="160px"
-          src={imageUrl}
+          src={userIconName ? `${process.env.PUBLIC_URL}/${userIconName}`: `${process.env.PUBLIC_URL}/noimage.jfif`}
           alt={userName}
           m="auto"
         />

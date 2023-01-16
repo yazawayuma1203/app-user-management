@@ -58,7 +58,7 @@ export const UserManagement: FC = memo(() => {
             <WrapItem key={user.id} mx="auto">
               <UserCard
                 id={user.id}
-                imageUrl="https://source.unsplash.com/random"
+                userIconName={user.userIconName}
                 userName={user.username}
                 fullName={user.name}
                 onClick={onClickUser}
